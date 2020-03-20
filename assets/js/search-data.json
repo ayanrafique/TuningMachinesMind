@@ -18,7 +18,7 @@
   
       ,"page1": {
           "title": "About Me",
-          "content": "My name is Ayan Rafique, and I am a deep learning enthusiast with a cross-disciplinary background in physics, engineering, and music. .",
+          "content": ". My name is Ayan Rafique, and I am a deep learning enthusiast with a cross-disciplinary background in physics, engineering, and music. .",
           "url": "https://ayanrafique.github.io/TuningMachinesMind/about/",
           "relUrl": "/about/",
           "date": ""
