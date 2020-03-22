@@ -91,7 +91,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -124,11 +124,28 @@ window.onload = wrap_img;
 
 <p>Here we use a method that was originally published in the 2015 paper <a href="http://arxiv.org/abs/1506.01186">Cyclical Learning Rates for Training Neural Networks</a>. By simply increasing the learning rate incrementally from a small value and only stopping once the loss started decreasing, you can plot the learning rates. By doing this, one can find the optimal learning rate amongst the plot. Based on the plot, a good learning rate to pick is 0.003, which is around the middle of the negative inclined portion of the graph.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learn</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learn</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </code></pre></div></div>
-<p><img src="/TuningMachinesMind/images/error.PNG" alt=""></p>
+<p><img src="/TuningMachinesMind/images/error.png" alt=""></p>
 
-<p>Implementing a method of tuning weights for the network, cycling over our data 8 epochs times, we get an error rate of 0.036721, which means our model is over 96% accurate! Not bad! Note that this was done without unfreezing the model, as the default learning rate of the fit_one_cycle method is right around the value desired, and gives appreciable results for this use case, while maintaining a steady lowering of the error rate through each cycling of the data.</p>
+<p>Implementing a method of tuning weights for the network, cycling over our data for 6 epochs, we get an error rate of 0.034159, which means our model is over 96% accurate! Not bad! Note that this was done without unfreezing the model, as the default learning rate of the fit_one_cycle method is right around the value desired, and gives appreciable results for this use case, while maintaining a steady lowering of the error rate through each cycling of the data.</p>
+
+<p>This model can be further improved by unfreezing the model so that the entire model is trainable instead of just the last layer. Then we can find the optimal learning rate for our trained model.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learn</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">'stage-1'</span><span class="p">)</span>
+<span class="n">learn</span><span class="o">.</span><span class="n">unfreeze</span><span class="p">()</span>
+<span class="n">learn</span><span class="o">.</span><span class="n">lr_find</span><span class="p">()</span>
+<span class="n">learn</span><span class="o">.</span><span class="n">recorder</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/TuningMachinesMind/images/lrfinder2.png" alt=""></p>
+
+<p>Let’s run for 4 more epochs.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learn</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">3e-4</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><img src="/TuningMachinesMind/images/error2.png" alt=""></p>
+
+<p>After fine tuning, we have come to an error rate of 0.017079. Now that is quite accurate, nearly 99%. This shows the power of modern tools when it comes to classification problems in object recognition.</p>
 
 <p>You can play around with this experimentation with the <a href="https://github.com/ayanrafique/FastAiFun/blob/master/Pneumonia_detection.ipynb">google colab file</a>. You must download and upload your own kaggle.json file to use the code as is, which can be aquired after making a kaggle account.</p>
 
