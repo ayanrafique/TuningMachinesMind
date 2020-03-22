@@ -24,13 +24,13 @@ learn.recorder.plot()
 ```
 ![]({{ site.baseurl }}/images/lrfind.png)
 
-Here we use a method that was originally published in the 2015 paper [Cyclical Learning Rates for Training Neural Networks](http://arxiv.org/abs/1506.01186). By simply increasing the learning rate incrementally from a small value and only stopping once the loss started decreasing, you can plot the learning rates. By doing this, one can find the optimal learning rate amongst the plot. 
+Here we use a method that was originally published in the 2015 paper [Cyclical Learning Rates for Training Neural Networks](http://arxiv.org/abs/1506.01186). By simply increasing the learning rate incrementally from a small value and only stopping once the loss started decreasing, you can plot the learning rates. By doing this, one can find the optimal learning rate amongst the plot. Based on the plot, a good learning rate to pick is 0.003, which is around the middle of the negative inclined portion of the graph. 
 
 ```python
 learn.fit_one_cycle(8)
 ```
 ![]({{ site.baseurl }}/images/error.PNG)
 
-Implementing a method of tuning weights for the network, cycling over our data 8 epochs times, we get an error rate of 0.036721, which means our model is over 96% accurate! Not bad! Note that this was done without unfreezing the model and actually applying the learning rate for minimal loss. The default learning rate of 0.003 of the fit\_one\_cycle method gives appreciable results for this use case, while maintaining a steady lowering of the error rate through each cycling of the data.
+Implementing a method of tuning weights for the network, cycling over our data 8 epochs times, we get an error rate of 0.036721, which means our model is over 96% accurate! Not bad! Note that this was done without unfreezing the model, as the default learning rate of the fit\_one\_cycle method is right around the value desired, and gives appreciable results for this use case, while maintaining a steady lowering of the error rate through each cycling of the data.
 
 You can play around with this experimentation with the [google colab file](https://github.com/ayanrafique/FastAiFun/blob/master/Pneumonia_detection.ipynb). You must download and upload your own kaggle.json file to use the code as is, which can be aquired after making a kaggle account.
